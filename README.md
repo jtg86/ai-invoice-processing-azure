@@ -50,6 +50,10 @@ ai-invoice-processing-azure/
 │   ├── main.bicep
 │   └── parameters.json
 │
+├── host.json
+├── local.settings.json.example
+├── requirements.txt
+│
 ├── functions/
 │   ├── process_invoice/
 │   │   ├── __init__.py
@@ -118,7 +122,8 @@ You are an accounting assistant for a Norwegian municipality.
 
 Invoice details:
 Supplier: Telenor ASA
-Description: Mobile subscriptions for employees
+Invoice number: INV-2024-0331
+Invoice date: 2024-03-18
 Total: 12,480 NOK
 
 Suggest:
@@ -161,6 +166,37 @@ See [SECURITY.md](SECURITY.md) for the full security posture, including:
 - Entra ID with RBAC
 - Audit logging
 - Prepared for municipal risk analysis (ROS)
+
+Security notes (demo vs production):
+- Demo uses environment variables for `FORM_RECOGNIZER_KEY` and `AZURE_OPENAI_KEY`.
+- Do not commit real secrets; use `local.settings.json` locally and Key Vault in Azure.
+- For production, prefer Key Vault references and Managed Identity.
+- Apply least privilege and rotate keys regularly.
+- Monitor usage and audit access via Azure logs.
+
+## 🧪 Run locally
+
+1. Install Azure Functions Core Tools and Python 3.11.
+2. Create a virtual environment and install dependencies:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+3. Copy the local settings template and fill in values:
+   ```bash
+   cp local.settings.json.example local.settings.json
+   ```
+4. Start the Functions host:
+   ```bash
+   func start
+   ```
+
+The `process_invoice` function listens on the `invoices` blob container and writes JSON output to the `output` container. The `suggest_accounting` function is an HTTP POST endpoint.
+
+## 🧱 Infrastructure scope
+
+`infrastructure/main.bicep` references **existing** Azure resources and outputs their IDs. It is meant as a demo scaffold and does not provision the full solution.
 
 ## ✅ Key features
 
