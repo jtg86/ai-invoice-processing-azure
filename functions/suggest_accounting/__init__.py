@@ -17,8 +17,9 @@ def _build_prompt(invoice: Dict[str, Any]) -> str:
         "You are an accounting assistant for a Norwegian municipality.\n\n"
         f"Invoice details:\n"
         f"Supplier: {invoice.get('supplier')}\n"
-        f"Description: {invoice.get('description')}\n"
-        f"Total: {invoice.get('total')} {invoice.get('currency', 'NOK')}\n\n"
+        f"Invoice number: {invoice.get('invoiceNumber')}\n"
+        f"Invoice date: {invoice.get('invoiceDate')}\n"
+        f"Total: {invoice.get('totalAmount')} {invoice.get('currency', 'NOK')}\n\n"
         "Suggest:\n- Account number\n- Cost center\n- Justification"
     )
 
