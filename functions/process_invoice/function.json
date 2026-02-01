@@ -1,0 +1,19 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "blob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "invoices/{name}",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "name": "$return",
+      "type": "blob",
+      "direction": "out",
+      "path": "output/{name}.json",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}
